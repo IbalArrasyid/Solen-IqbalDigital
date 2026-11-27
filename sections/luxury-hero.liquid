@@ -1,0 +1,162 @@
+{{ 'section-luxury-hero.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign overlay_opacity = section.settings.overlay_opacity | divided_by: 100.0
+  assign desktop_image = section.settings.image_desktop
+  assign mobile_image = section.settings.image_mobile | default: desktop_image
+-%}
+
+<section
+  id="LuxuryHero-{{ section.id }}"
+  class="lx-hero"
+  style="--hero-overlay-opacity: {{ overlay_opacity }};"
+>
+  <div class="lx-hero__media">
+    {%- if desktop_image != blank -%}
+      {{
+        desktop_image
+        | image_url: width: 2400
+        | image_tag:
+          widths: '750, 1100, 1500, 1920, 2400',
+          sizes: '100vw',
+          loading: 'eager',
+          fetchpriority: 'high',
+          class: 'lx-hero__img lx-hero__img--desktop',
+          alt: desktop_image.alt | default: section.settings.heading | escape
+      }}
+      {{
+        mobile_image
+        | image_url: width: 1200
+        | image_tag:
+          widths: '375, 550, 750, 1100',
+          sizes: '100vw',
+          loading: 'eager',
+          fetchpriority: 'high',
+          class: 'lx-hero__img lx-hero__img--mobile',
+          alt: mobile_image.alt | default: section.settings.heading | escape
+      }}
+    {%- else -%}
+      <img
+        src="{{ 'solen-hero.jpg' | asset_url }}"
+        alt="{{ section.settings.heading | default: 'SOLEN Architectural Study' | escape }}"
+        class="lx-hero__img"
+        loading="eager"
+        fetchpriority="high"
+        width="1920"
+        height="1080"
+      >
+    {%- endif -%}
+  </div>
+
+  <div class="lx-hero__scrim" aria-hidden="true"></div>
+
+  <div class="lx-hero__inner">
+    <div class="lx-hero__content">
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="lx-eyebrow lx-eyebrow--with-bar lx-hero__eyebrow">
+          {{ section.settings.eyebrow | escape }}
+        </span>
+      {%- endif -%}
+
+      {%- if section.settings.heading != blank -%}
+        <h1 class="lx-hero__heading">
+          {{ section.settings.heading | escape }}
+        </h1>
+      {%- endif -%}
+
+      {%- if section.settings.description != blank -%}
+        <p class="lx-hero__description">
+          {{ section.settings.description | escape }}
+        </p>
+      {%- endif -%}
+
+      {%- if section.settings.button_label != blank -%}
+        <a
+          href="{{ section.settings.button_link | default: routes.all_products_collection_url }}"
+          class="lx-hero__cta"
+        >
+          <span>{{ section.settings.button_label | escape }}</span>
+          <svg
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.25"
+            stroke-linecap="square"
+            aria-hidden="true"
+          >
+            <path d="M2.5 8H13.5" />
+            <path d="M9.5 4L13.5 8L9.5 12" />
+          </svg>
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Luxury Editorial Hero",
+  "tag": "section",
+  "class": "section-luxury-hero",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image_desktop",
+      "label": "Desktop background image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile background image (optional)",
+      "info": "Falls back to the desktop image if left blank."
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 85,
+      "step": 5,
+      "unit": "%",
+      "label": "Gradient scrim intensity",
+      "default": 45
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "ARCHITECTURAL ERGONOMICS"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Display heading",
+      "default": "Form Follows Stillness."
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Editorial description",
+      "default": "Sculptural seating and monolithic desks crafted in solid European oak and brushed bronze for unhurried permanence."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Explore the Collection"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Luxury Editorial Hero"
+    }
+  ]
+}
+{% endschema %}

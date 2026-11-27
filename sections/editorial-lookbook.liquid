@@ -1,0 +1,298 @@
+{{ 'section-editorial-lookbook.css' | asset_url | stylesheet_tag }}
+
+<section id="EditorialLookbook-{{ section.id }}" class="lx-lookbook">
+  <div class="lx-lookbook__inner">
+    <div class="lx-lookbook__header">
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="lx-eyebrow lx-eyebrow--with-bar">{{ section.settings.eyebrow | escape }}</span>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="lx-lookbook__heading">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subtitle != blank -%}
+        <p class="lx-lookbook__subtitle">{{ section.settings.subtitle | escape }}</p>
+      {%- endif -%}
+    </div>
+
+    <editorial-lookbook class="lx-lookbook__stage">
+      <div class="lx-lookbook__media-frame">
+        {%- if section.settings.room_image != blank -%}
+          {{
+            section.settings.room_image
+            | image_url: width: 2200
+            | image_tag:
+              widths: '750, 1100, 1500, 1920, 2200',
+              sizes: '(min-width: 1440px) 1344px, 100vw',
+              loading: 'lazy',
+              decoding: 'async',
+              class: 'lx-lookbook__img',
+              alt: section.settings.room_image.alt | default: section.settings.heading | escape
+          }}
+        {%- else -%}
+          <img
+            src="{{ 'solen-lookbook-study.jpg' | asset_url }}"
+            alt="{{ section.settings.heading | default: 'The Quiet Study Lookbook' | escape }}"
+            class="lx-lookbook__img"
+            loading="lazy"
+            decoding="async"
+            width="1920"
+            height="1080"
+          >
+        {%- endif -%}
+
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign hotspot_product = block.settings.product
+            if hotspot_product != blank
+              assign item_title = hotspot_product.title
+              assign item_price = hotspot_product.price | money
+              assign item_url = hotspot_product.url
+              assign item_dimensions = hotspot_product.metafields.custom.dimensions.value | default: hotspot_product.metafields.custom.dimensions | default: block.settings.fallback_dimensions
+            else
+              assign item_title = block.settings.fallback_title | default: 'Architectural Piece'
+              assign item_price = block.settings.fallback_price | default: '$2,800'
+              assign item_url = routes.all_products_collection_url
+              assign item_dimensions = block.settings.fallback_dimensions | default: 'W 180 × D 85 × H 74 cm'
+            endif
+          -%}
+          <button
+            type="button"
+            class="lx-lookbook__pin{% if forloop.first %} is-active{% endif %}"
+            style="--pin-x: {{ block.settings.pos_x }}%; --pin-y: {{ block.settings.pos_y }}%;"
+            aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
+            aria-label="{{ 'Inspect ' | append: item_title | escape }}"
+            data-lookbook-pin
+            data-index="{{ forloop.index }}"
+            data-title="{{ item_title | escape }}"
+            data-price="{{ item_price | escape }}"
+            data-dimensions="{{ item_dimensions | escape }}"
+            data-url="{{ item_url }}"
+            {{ block.shopify_attributes }}
+          >
+            <svg
+              viewBox="0 0 16 16"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.3"
+              stroke-linecap="square"
+              aria-hidden="true"
+            >
+              <path d="M8 3V13" />
+              <path d="M3 8H13" />
+            </svg>
+          </button>
+        {%- endfor -%}
+      </div>
+
+      {%- if section.blocks.size > 0 -%}
+        {%- liquid
+          assign first_block = section.blocks.first
+          assign first_product = first_block.settings.product
+          if first_product != blank
+            assign active_title = first_product.title
+            assign active_price = first_product.price | money
+            assign active_url = first_product.url
+            assign active_dimensions = first_product.metafields.custom.dimensions.value | default: first_product.metafields.custom.dimensions | default: first_block.settings.fallback_dimensions
+          else
+            assign active_title = first_block.settings.fallback_title | default: 'Kanso Monolith Desk'
+            assign active_price = first_block.settings.fallback_price | default: '$3,450'
+            assign active_url = routes.all_products_collection_url
+            assign active_dimensions = first_block.settings.fallback_dimensions | default: 'W 180 × D 85 × H 74 cm'
+          endif
+        -%}
+        <div class="lx-lookbook__card" role="region" aria-live="polite" aria-label="Featured room piece">
+          <div class="lx-lookbook__card-top">
+            <h3 class="lx-lookbook__card-title" data-lookbook-title>{{ active_title | escape }}</h3>
+            <span class="lx-lookbook__card-price" data-lookbook-price>{{ active_price | escape }}</span>
+          </div>
+          <p class="lx-lookbook__card-dimensions" data-lookbook-dimensions>{{ active_dimensions | escape }}</p>
+          <div class="lx-lookbook__card-footer">
+            <span class="lx-lookbook__card-index" data-lookbook-index>
+              01 / {{ section.blocks.size | prepend: '0' | slice: -2, 2 }}
+            </span>
+            <a href="{{ active_url }}" class="lx-text-link" data-lookbook-link>
+              <span>{{ section.settings.cta_label | default: 'View Piece' | escape }}</span>
+              <svg
+                viewBox="0 0 16 16"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.25"
+                stroke-linecap="square"
+                aria-hidden="true"
+              >
+                <path d="M2.5 8H13.5" />
+                <path d="M9.5 4L13.5 8L9.5 12" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      {%- endif -%}
+    </editorial-lookbook>
+  </div>
+</section>
+
+{% javascript %}
+  if (!customElements.get('editorial-lookbook')) {
+    class EditorialLookbook extends HTMLElement {
+      connectedCallback() {
+        this.pins = Array.from(this.querySelectorAll('[data-lookbook-pin]'));
+        this.titleEl = this.querySelector('[data-lookbook-title]');
+        this.priceEl = this.querySelector('[data-lookbook-price]');
+        this.dimensionsEl = this.querySelector('[data-lookbook-dimensions]');
+        this.linkEl = this.querySelector('[data-lookbook-link]');
+        this.indexEl = this.querySelector('[data-lookbook-index]');
+
+        this.pins.forEach((pin) => {
+          pin.addEventListener('click', () => this.activatePin(pin));
+        });
+      }
+
+      activatePin(activePin) {
+        this.pins.forEach((pin) => {
+          const isCurrent = pin === activePin;
+          pin.classList.toggle('is-active', isCurrent);
+          pin.setAttribute('aria-pressed', isCurrent ? 'true' : 'false');
+        });
+
+        if (this.titleEl) this.titleEl.textContent = activePin.dataset.title || '';
+        if (this.priceEl) this.priceEl.textContent = activePin.dataset.price || '';
+        if (this.dimensionsEl) {
+          this.dimensionsEl.textContent = activePin.dataset.dimensions || '';
+          this.dimensionsEl.hidden = !activePin.dataset.dimensions;
+        }
+        if (this.linkEl && activePin.dataset.url) {
+          this.linkEl.setAttribute('href', activePin.dataset.url);
+        }
+        if (this.indexEl) {
+          const current = String(activePin.dataset.index || '1').padStart(2, '0');
+          const total = String(this.pins.length).padStart(2, '0');
+          this.indexEl.textContent = `${current} / ${total}`;
+        }
+      }
+    }
+
+    customElements.define('editorial-lookbook', EditorialLookbook);
+  }
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Editorial Lookbook",
+  "tag": "section",
+  "class": "section-editorial-lookbook",
+  "max_blocks": 6,
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "IN SITU — RESIDENCE 04"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The Quiet Study"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle (optional)",
+      "default": "Select a marker within the room to inspect dimensions, material finish, and availability."
+    },
+    {
+      "type": "image_picker",
+      "id": "room_image",
+      "label": "Room photograph (16:9 recommended)"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Preview card link label",
+      "default": "View Piece"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "hotspot",
+      "name": "Product Hotspot",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "range",
+          "id": "pos_x",
+          "min": 5,
+          "max": 95,
+          "step": 1,
+          "unit": "%",
+          "label": "Horizontal position (X)",
+          "default": 35
+        },
+        {
+          "type": "range",
+          "id": "pos_y",
+          "min": 5,
+          "max": 95,
+          "step": 1,
+          "unit": "%",
+          "label": "Vertical position (Y)",
+          "default": 55
+        },
+        {
+          "type": "text",
+          "id": "fallback_dimensions",
+          "label": "Dimensions (fallback if metafield is empty)",
+          "default": "W 180 × D 85 × H 74 cm",
+          "info": "Automatically reads product.metafields.custom.dimensions first."
+        },
+        {
+          "type": "text",
+          "id": "fallback_title",
+          "label": "Placeholder title (when no product selected)",
+          "default": "Kanso Monolith Desk"
+        },
+        {
+          "type": "text",
+          "id": "fallback_price",
+          "label": "Placeholder price (when no product selected)",
+          "default": "$3,450"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Editorial Lookbook",
+      "blocks": [
+        {
+          "type": "hotspot",
+          "settings": {
+            "pos_x": 38,
+            "pos_y": 58,
+            "fallback_title": "Kanso Monolith Desk",
+            "fallback_price": "$3,450",
+            "fallback_dimensions": "W 180 × D 85 × H 74 cm"
+          }
+        },
+        {
+          "type": "hotspot",
+          "settings": {
+            "pos_x": 62,
+            "pos_y": 64,
+            "fallback_title": "Aurelia Ergonomic Task Chair",
+            "fallback_price": "$1,890",
+            "fallback_dimensions": "W 66 × D 64 × H 86–98 cm"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

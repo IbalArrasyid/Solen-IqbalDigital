@@ -1,0 +1,179 @@
+/* ==========================================================================
+   SOLEN — ASYMMETRIC BRAND PHILOSOPHY SPLIT (55fr / 45fr)
+   ========================================================================== */
+
+.lx-split {
+  background-color: var(--color-warm-alabaster);
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.lx-split__container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+@media screen and (min-width: 990px) {
+  .lx-split__container {
+    grid-template-columns: 55fr 45fr;
+    min-height: 68rem;
+  }
+
+  .lx-split--reversed .lx-split__container {
+    grid-template-columns: 45fr 55fr;
+  }
+
+  .lx-split--reversed .lx-split__media {
+    order: 2;
+  }
+
+  .lx-split--reversed .lx-split__content {
+    order: 1;
+    border-left: none;
+    border-right: 1px solid var(--color-hairline);
+  }
+}
+
+.lx-split__media {
+  position: relative;
+  background-color: var(--color-soft-stone);
+  min-height: 36rem;
+  overflow: hidden;
+}
+
+@media screen and (min-width: 990px) {
+  .lx-split__media {
+    min-height: 100%;
+  }
+}
+
+.lx-split__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.lx-split__placeholder {
+  width: 100%;
+  height: 100%;
+  min-height: 36rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-soft-stone);
+  color: var(--color-muted-taupe);
+}
+
+.lx-split__placeholder svg {
+  width: 60%;
+  height: 60%;
+  opacity: 0.35;
+}
+
+.lx-split__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: var(--space-6) var(--gutter-mobile);
+  gap: var(--space-6);
+}
+
+@media screen and (min-width: 750px) {
+  .lx-split__content {
+    padding: var(--space-7) var(--gutter-tablet);
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .lx-split__content {
+    padding: var(--space-8) var(--space-7);
+    border-left: 1px solid var(--color-hairline);
+  }
+}
+
+.lx-split__narrative {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.lx-split__heading {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-headline-lg);
+  font-weight: 400;
+  line-height: var(--leading-headline);
+  letter-spacing: -0.01em;
+  color: var(--color-deep-charcoal);
+}
+
+.lx-split__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.lx-split__body p {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-body-md);
+  line-height: var(--leading-relaxed);
+  color: var(--color-muted-taupe);
+}
+
+/* Bottom Material Inset Detail Block */
+.lx-split__inset {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-hairline);
+}
+
+.lx-split__inset-media {
+  width: 11.2rem;
+  height: 11.2rem;
+  flex-shrink: 0;
+  background-color: var(--color-soft-stone);
+  border-radius: var(--radius-sharp);
+  overflow: hidden;
+  border: 1px solid var(--color-hairline);
+}
+
+.lx-split__inset-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.lx-split__inset-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--color-soft-stone) 0%, #ded7ca 100%);
+}
+
+.lx-split__inset-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.lx-split__inset-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-title-lg);
+  font-weight: 500;
+  line-height: var(--leading-title);
+  color: var(--color-deep-charcoal);
+}
+
+.lx-split__inset-copy {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-body-md);
+  line-height: var(--leading-body);
+  color: var(--color-muted-taupe);
+}

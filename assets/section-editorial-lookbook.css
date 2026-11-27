@@ -1,0 +1,236 @@
+/* ==========================================================================
+   SOLEN — INTERACTIVE CONTEXTUAL LOOKBOOK
+   ========================================================================== */
+
+.lx-lookbook {
+  background-color: var(--color-warm-alabaster);
+  border-top: 1px solid var(--color-hairline);
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.lx-lookbook__inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: var(--space-7) var(--gutter-mobile);
+}
+
+@media screen and (min-width: 750px) {
+  .lx-lookbook__inner {
+    padding: var(--space-8) var(--gutter-tablet);
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .lx-lookbook__inner {
+    padding: var(--space-8) var(--gutter-desktop);
+  }
+}
+
+.lx-lookbook__header {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-bottom: var(--space-5);
+  max-width: 56rem;
+}
+
+.lx-lookbook__heading {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-headline-lg);
+  font-weight: 400;
+  line-height: var(--leading-headline);
+  color: var(--color-deep-charcoal);
+}
+
+.lx-lookbook__subtitle {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-body-md);
+  line-height: var(--leading-body);
+  color: var(--color-muted-taupe);
+}
+
+/* Stage & Responsive Aspect Ratio */
+.lx-lookbook__stage {
+  position: relative;
+  display: block;
+}
+
+.lx-lookbook__media-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background-color: var(--color-soft-stone);
+  border-radius: var(--radius-sharp);
+  overflow: hidden;
+  border: 1px solid var(--color-hairline);
+}
+
+@media screen and (min-width: 768px) {
+  .lx-lookbook__media-frame {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+.lx-lookbook__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.lx-lookbook__placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #eae5dc 0%, #dcd5c9 100%);
+  color: var(--color-muted-taupe);
+}
+
+.lx-lookbook__placeholder svg {
+  width: 45%;
+  height: 45%;
+  opacity: 0.35;
+}
+
+/* 32px Circular Hotspot Pins */
+.lx-lookbook__pin {
+  position: absolute;
+  left: var(--pin-x, 50%);
+  top: var(--pin-y, 50%);
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  width: 3.2rem;
+  height: 3.2rem;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--color-hairline);
+  background-color: var(--color-warm-alabaster);
+  color: var(--color-deep-charcoal);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-state) var(--ease-state),
+    color var(--duration-state) var(--ease-state),
+    border-color var(--duration-state) var(--ease-state),
+    transform var(--duration-state) var(--ease-state);
+}
+
+.lx-lookbook__pin svg {
+  width: 1.4rem;
+  height: 1.4rem;
+  transition: transform var(--duration-state) var(--ease-state);
+}
+
+.lx-lookbook__pin:hover {
+  border-color: var(--color-deep-charcoal);
+  transform: translate(-50%, -50%) scale(1.06);
+}
+
+.lx-lookbook__pin.is-active,
+.lx-lookbook__pin[aria-pressed='true'] {
+  background-color: var(--color-deep-charcoal);
+  border-color: var(--color-deep-charcoal);
+  color: var(--color-warm-alabaster);
+}
+
+.lx-lookbook__pin.is-active svg,
+.lx-lookbook__pin[aria-pressed='true'] svg {
+  transform: rotate(45deg);
+}
+
+.lx-lookbook__pin:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring-luxury);
+}
+
+/* Preview Card: Static Below Image on Mobile (< 768px) */
+.lx-lookbook__card {
+  position: static;
+  width: 100%;
+  margin-top: var(--space-3);
+  padding: var(--space-4);
+  background-color: var(--color-warm-alabaster);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-sharp);
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  z-index: 4;
+}
+
+/* Floating Preview Card on Tablet/Desktop (>= 768px) */
+@media screen and (min-width: 768px) {
+  .lx-lookbook__card {
+    position: absolute;
+    right: var(--space-5);
+    bottom: var(--space-5);
+    width: 33rem;
+    margin-top: 0;
+    padding: var(--space-4);
+    background-color: rgba(var(--rgb-warm-alabaster), 0.96);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+}
+
+.lx-lookbook__card-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.lx-lookbook__card-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--color-deep-charcoal);
+}
+
+.lx-lookbook__card-price {
+  flex-shrink: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-body-md);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-deep-charcoal);
+}
+
+.lx-lookbook__card-dimensions {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-label-sm);
+  letter-spacing: 0.04em;
+  color: var(--color-muted-taupe);
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.lx-lookbook__card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.lx-lookbook__card-index {
+  font-family: var(--font-body);
+  font-size: var(--text-label-sm);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--tracking-label);
+  color: var(--color-muted-taupe);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lx-lookbook__pin,
+  .lx-lookbook__pin svg {
+    transition: none;
+  }
+}

@@ -1,0 +1,484 @@
+/* ==========================================================================
+   SOLEN — ARCHITECTURAL FURNITURE DESIGN TOKENS & BASE FOUNDATION
+   Source of truth: DESIGN_SYSTEM.md
+   Note: Dawn sets html { font-size: calc(var(--font-body-scale) * 62.5%); }
+         so 1rem = 10px at default scale. All rem values below are calibrated
+         to Dawn's 10px root to keep Cart Drawer & Variant Picker intact.
+   ========================================================================== */
+
+:root {
+  /* ------------------------------------------------------------------------
+     1. SOLEN Core Color Tokens
+     ------------------------------------------------------------------------ */
+  --color-warm-alabaster: #F9F8F6;       /* Primary canvas surface */
+  --color-soft-stone: #EFECE6;           /* Secondary surface / media container */
+  --color-surface-low: #F3F1ED;          /* Subtle surface step */
+  --color-deep-charcoal: #1A1A1A;        /* Primary text & primary action */
+  --color-muted-taupe: #6E6A63;          /* Secondary text & metadata */
+  --color-brushed-bronze: #A68A64;       /* Minimal accent */
+  --color-brushed-bronze-hover: #8C7250; /* Accent hover state */
+  --color-hairline: #E3E2E0;             /* 1px structural divider */
+  --color-outline: #C7C6C5;              /* Input & outline border */
+  --color-pure-porcelain: #FFFFFF;       /* Elevated modal / popover surface */
+
+  /* RGB Channels for Dawn Alpha Compositions */
+  --rgb-warm-alabaster: 249, 248, 246;
+  --rgb-soft-stone: 239, 236, 230;
+  --rgb-deep-charcoal: 26, 26, 26;
+  --rgb-muted-taupe: 110, 106, 99;
+  --rgb-brushed-bronze: 166, 138, 100;
+
+  /* Semantic States (Muted, Editorial-Safe) */
+  --color-status-success: #3F5A45;
+  --color-status-warning: #9A7438;
+  --color-status-error: #8E3B36;
+  --color-status-error-bg: #F6ECEB;
+
+  /* Focus Ring */
+  --focus-ring-luxury: 0 0 0 2px var(--color-warm-alabaster), 0 0 0 4px var(--color-brushed-bronze);
+
+  /* ------------------------------------------------------------------------
+     2. Editorial Typography Tokens (Calibrated to Dawn 1rem = 10px)
+     ------------------------------------------------------------------------ */
+  --font-display: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* Fluid & Fixed Editorial Type Scale */
+  --text-display-xl: clamp(3.2rem, 1.8rem + 3.2vw, 6.4rem);  /* 32px -> 64px */
+  --text-headline-lg: clamp(2.6rem, 2.1rem + 1.1vw, 3.6rem); /* 26px -> 36px */
+  --text-headline-md: 2.8rem;                                 /* 28px */
+  --text-title-lg: 1.8rem;                                    /* 18px */
+  --text-title-md: 1.5rem;                                    /* 15px */
+  --text-body-lg: 1.6rem;                                     /* 16px */
+  --text-body-md: 1.4rem;                                     /* 14px */
+  --text-label-lg: 1.3rem;                                    /* 13px */
+  --text-label-sm: 1.2rem;                                    /* 12px */
+
+  /* Line Heights */
+  --leading-display: 1.06;
+  --leading-headline: 1.18;
+  --leading-title: 1.3;
+  --leading-body: 1.65;
+  --leading-relaxed: 1.75;
+
+  /* Letter Spacing */
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0em;
+  --tracking-wide: 0.08em;
+  --tracking-label: 0.12em;
+  --tracking-wordmark: 0.24em;
+
+  /* ------------------------------------------------------------------------
+     3. 8pt Spacing Grid, Container, Radii & Motion
+     ------------------------------------------------------------------------ */
+  --space-1: 0.4rem;    /* 4px */
+  --space-2: 0.8rem;    /* 8px */
+  --space-3: 1.6rem;    /* 16px */
+  --space-4: 2.4rem;    /* 24px */
+  --space-5: 3.2rem;    /* 32px */
+  --space-6: 4.8rem;    /* 48px */
+  --space-7: 6.4rem;    /* 64px */
+  --space-8: 9.6rem;    /* 96px */
+  --space-9: 12.8rem;   /* 128px */
+
+  --container-max: 144rem; /* 1440px */
+  --gutter-mobile: var(--space-3);
+  --gutter-tablet: var(--space-5);
+  --gutter-desktop: var(--space-6);
+
+  --radius-none: 0px;
+  --radius-sharp: 2px;
+  --border-hairline: 1px solid var(--color-hairline);
+
+  /* Architectural Motion Curves */
+  --ease-state: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --duration-state: 200ms;
+  --ease-surface: cubic-bezier(0.2, 0, 0, 1);
+  --duration-surface: 350ms;
+  --ease-image: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-image: 600ms;
+
+  /* ------------------------------------------------------------------------
+     4. Compatibility Aliases (--lx-*)
+     ------------------------------------------------------------------------ */
+  --lx-color-bg-primary: var(--color-warm-alabaster);
+  --lx-color-bg-secondary: var(--color-soft-stone);
+  --lx-color-bg-elevated: var(--color-pure-porcelain);
+  --lx-color-bg-inverse: var(--color-deep-charcoal);
+  --lx-color-text-primary: var(--color-deep-charcoal);
+  --lx-color-text-secondary: var(--color-muted-taupe);
+  --lx-color-text-inverse: var(--color-warm-alabaster);
+  --lx-color-accent: var(--color-brushed-bronze);
+  --lx-color-accent-hover: var(--color-brushed-bronze-hover);
+  --lx-color-border-hairline: var(--color-hairline);
+  --lx-color-border-strong: var(--color-outline);
+  --lx-focus-ring: var(--focus-ring-luxury);
+  --lx-font-heading: var(--font-display);
+  --lx-font-body: var(--font-body);
+  --lx-container-max-width: var(--container-max);
+  --lx-container-gutter-mobile: var(--gutter-mobile);
+  --lx-container-gutter-tablet: var(--gutter-tablet);
+  --lx-container-gutter-desktop: var(--gutter-desktop);
+  --lx-space-1: var(--space-1);
+  --lx-space-2: var(--space-2);
+  --lx-space-3: var(--space-3);
+  --lx-space-4: var(--space-4);
+  --lx-space-5: var(--space-5);
+  --lx-space-6: var(--space-6);
+  --lx-space-7: var(--space-7);
+  --lx-space-8: var(--space-8);
+  --lx-space-9: var(--space-9);
+  --lx-radius-none: var(--radius-none);
+  --lx-radius-xs: var(--radius-sharp);
+  --lx-border-width: 1px;
+  --lx-tracking-wide: var(--tracking-label);
+  --lx-tracking-wider: var(--tracking-label);
+  --lx-ease-editorial: var(--ease-surface);
+  --lx-duration-fast: var(--duration-state);
+  --lx-duration-base: var(--duration-surface);
+  --lx-duration-slow: var(--duration-image);
+
+  /* ------------------------------------------------------------------------
+     5. Dawn Legacy & Modern Theme Variable Overrides
+     ------------------------------------------------------------------------ */
+  --color-base-background-1: var(--rgb-warm-alabaster);
+  --color-base-background-2: var(--rgb-soft-stone);
+  --color-base-text: var(--rgb-deep-charcoal);
+  --color-base-accent-1: var(--rgb-deep-charcoal);
+  --color-base-accent-2: var(--rgb-brushed-bronze);
+  --color-base-solid-button-labels: var(--rgb-warm-alabaster);
+  --color-base-outline-button-labels: var(--rgb-deep-charcoal);
+
+  --font-heading-family: var(--font-display);
+  --font-heading-weight: 400;
+  --font-body-family: var(--font-body);
+  --font-body-weight: 400;
+
+  --page-width: var(--container-max);
+  --grid-desktop-horizontal-spacing: 24px;
+  --grid-desktop-vertical-spacing: 40px;
+  --grid-mobile-horizontal-spacing: 16px;
+  --grid-mobile-vertical-spacing: 28px;
+
+  --buttons-radius: var(--radius-sharp);
+  --buttons-radius-outset: var(--radius-sharp);
+  --buttons-border-width: 1px;
+  --buttons-border-opacity: 1;
+  --buttons-border-offset: 0px;
+  --buttons-shadow-opacity: 0;
+  --buttons-shadow-visible: 0;
+
+  --inputs-radius: var(--radius-sharp);
+  --inputs-radius-outset: var(--radius-sharp);
+  --inputs-border-width: 1px;
+  --inputs-border-opacity: 1;
+  --inputs-shadow-opacity: 0;
+
+  --variant-pills-radius: var(--radius-sharp);
+  --variant-pills-border-width: 1px;
+  --variant-pills-border-opacity: 0.25;
+  --variant-pills-shadow-opacity: 0;
+
+  --product-card-corner-radius: 0.2rem;
+  --product-card-border-width: 0rem;
+  --product-card-shadow-opacity: 0;
+  --product-card-shadow-visible: 0;
+  --product-card-image-padding: 0rem;
+
+  --collection-card-corner-radius: 0.2rem;
+  --collection-card-shadow-opacity: 0;
+  --collection-card-shadow-visible: 0;
+
+  --media-radius: 2px;
+  --media-shadow-opacity: 0;
+  --media-shadow-visible: 0;
+
+  --badge-corner-radius: 0.2rem;
+  --popup-corner-radius: 2px;
+  --popup-border-width: 1px;
+  --popup-border-opacity: 0.16;
+  --drawer-border-width: 1px;
+  --drawer-border-opacity: 0.14;
+}
+
+/* Map Dawn Color Schemes cleanly to SOLEN palette */
+:root,
+.color-scheme-1 {
+  --color-background: var(--rgb-warm-alabaster);
+  --gradient-background: var(--color-warm-alabaster);
+  --color-foreground: var(--rgb-deep-charcoal);
+  --color-background-contrast: var(--rgb-soft-stone);
+  --color-shadow: var(--rgb-deep-charcoal);
+  --color-button: var(--rgb-deep-charcoal);
+  --color-button-text: var(--rgb-warm-alabaster);
+  --color-secondary-button: var(--rgb-warm-alabaster);
+  --color-secondary-button-text: var(--rgb-deep-charcoal);
+  --color-link: var(--rgb-deep-charcoal);
+  --color-badge-foreground: var(--rgb-deep-charcoal);
+  --color-badge-background: var(--rgb-warm-alabaster);
+  --color-badge-border: var(--rgb-deep-charcoal);
+  --payment-terms-background-color: var(--color-warm-alabaster);
+}
+
+.color-scheme-2 {
+  --color-background: var(--rgb-soft-stone);
+  --gradient-background: var(--color-soft-stone);
+  --color-foreground: var(--rgb-deep-charcoal);
+  --color-background-contrast: var(--rgb-warm-alabaster);
+  --color-shadow: var(--rgb-deep-charcoal);
+  --color-button: var(--rgb-deep-charcoal);
+  --color-button-text: var(--rgb-warm-alabaster);
+  --color-secondary-button: var(--rgb-soft-stone);
+  --color-secondary-button-text: var(--rgb-deep-charcoal);
+  --color-link: var(--rgb-deep-charcoal);
+  --payment-terms-background-color: var(--color-soft-stone);
+}
+
+.color-scheme-3,
+.color-scheme-4 {
+  --color-background: var(--rgb-deep-charcoal);
+  --gradient-background: var(--color-deep-charcoal);
+  --color-foreground: var(--rgb-warm-alabaster);
+  --color-button: var(--rgb-warm-alabaster);
+  --color-button-text: var(--rgb-deep-charcoal);
+  --color-secondary-button: var(--rgb-deep-charcoal);
+  --color-secondary-button-text: var(--rgb-warm-alabaster);
+  --color-link: var(--rgb-warm-alabaster);
+  --payment-terms-background-color: var(--color-deep-charcoal);
+}
+
+/* ==========================================================================
+   6. Base Editorial Canvas & Typography
+   ========================================================================== */
+
+body {
+  background-color: rgb(var(--color-background));
+  color: rgb(var(--color-foreground));
+  font-family: var(--font-body);
+  font-size: var(--text-body-md);
+  line-height: var(--leading-body);
+  letter-spacing: var(--tracking-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4,
+.h0, .h1, .h2, .h3, .h4 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  color: rgb(var(--color-foreground));
+}
+
+.h0,
+h1, .h1 {
+  font-size: var(--text-display-xl);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-tight);
+}
+
+h2, .h2 {
+  font-size: var(--text-headline-lg);
+  line-height: var(--leading-headline);
+  letter-spacing: -0.01em;
+}
+
+h3, .h3 {
+  font-size: var(--text-headline-md);
+  line-height: var(--leading-headline);
+}
+
+h4, .h4 {
+  font-size: var(--text-title-lg);
+  line-height: var(--leading-title);
+}
+
+.lx-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.2rem;
+  font-family: var(--font-body);
+  font-size: var(--text-label-sm);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-muted-taupe);
+  line-height: 1.2;
+}
+
+.lx-eyebrow--with-bar::before {
+  content: '';
+  display: inline-block;
+  width: 2rem;
+  height: 1px;
+  background-color: var(--color-brushed-bronze);
+  flex-shrink: 0;
+}
+
+.caption,
+.caption-with-letter-spacing {
+  font-family: var(--font-body);
+  font-size: var(--text-label-sm);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-muted-taupe);
+}
+
+/* Container Rhythm */
+.page-width {
+  max-width: var(--container-max);
+  padding-left: var(--gutter-mobile);
+  padding-right: var(--gutter-mobile);
+}
+
+@media screen and (min-width: 750px) {
+  .page-width {
+    padding-left: var(--gutter-tablet);
+    padding-right: var(--gutter-tablet);
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .page-width {
+    padding-left: var(--gutter-desktop);
+    padding-right: var(--gutter-desktop);
+  }
+}
+
+/* ==========================================================================
+   7. Global Quiet Luxury Buttons (.button)
+   ========================================================================== */
+
+.button,
+.shopify-challenge__button,
+.customer button,
+button.shopify-payment-button__button--unbranded {
+  font-family: var(--font-body);
+  font-size: var(--text-label-sm);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  line-height: 1.2;
+  min-height: 4.8rem;
+  padding: 1.2rem var(--space-5);
+  border-radius: var(--radius-sharp);
+  border: 1px solid rgb(var(--color-button));
+  background-color: rgb(var(--color-button));
+  color: rgb(var(--color-button-text));
+  box-shadow: none;
+  transition:
+    background-color var(--duration-state) var(--ease-state),
+    color var(--duration-state) var(--ease-state),
+    border-color var(--duration-state) var(--ease-state),
+    opacity var(--duration-state) var(--ease-state);
+}
+
+.button:before,
+.button:after,
+.shopify-challenge__button:before,
+.shopify-challenge__button:after,
+.customer button:before,
+.customer button:after,
+.shopify-payment-button__button--unbranded:before,
+.shopify-payment-button__button--unbranded:after {
+  box-shadow: none !important;
+  border: none;
+}
+
+.button:not([disabled]):hover,
+.shopify-challenge__button:hover,
+.customer button:hover,
+button.shopify-payment-button__button--unbranded:hover {
+  background-color: var(--color-brushed-bronze);
+  border-color: var(--color-brushed-bronze);
+  color: var(--color-warm-alabaster);
+}
+
+.button--secondary {
+  background-color: transparent;
+  color: rgb(var(--color-secondary-button-text));
+  border: 1px solid var(--color-outline);
+}
+
+.button--secondary:not([disabled]):hover {
+  background-color: rgb(var(--color-foreground));
+  border-color: rgb(var(--color-foreground));
+  color: rgb(var(--color-background));
+}
+
+.button--tertiary {
+  background-color: transparent;
+  color: rgb(var(--color-foreground));
+  border: 1px solid var(--color-hairline);
+  min-height: 3.6rem;
+  padding: 0.8rem var(--space-3);
+  font-size: var(--text-label-sm);
+}
+
+.button--tertiary:not([disabled]):hover {
+  background-color: var(--color-soft-stone);
+  border-color: var(--color-outline);
+  color: var(--color-deep-charcoal);
+}
+
+.button:focus-visible,
+.shopify-payment-button__button--unbranded:focus-visible,
+a:focus-visible,
+summary:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring-luxury);
+}
+
+.button:disabled,
+.button[aria-disabled='true'],
+.button.disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.button.loading {
+  color: transparent;
+}
+
+/* Editorial Inline Link with Thin Arrow */
+.lx-text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-family: var(--font-body);
+  font-size: var(--text-label-sm);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-deep-charcoal);
+  text-decoration: none;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--color-outline);
+  transition:
+    color var(--duration-state) var(--ease-state),
+    border-color var(--duration-state) var(--ease-state);
+}
+
+.lx-text-link svg {
+  width: 1.4rem;
+  height: 1.4rem;
+  transition: transform var(--duration-state) var(--ease-state);
+}
+
+.lx-text-link:hover {
+  color: var(--color-brushed-bronze);
+  border-color: var(--color-brushed-bronze);
+}
+
+.lx-text-link:hover svg {
+  transform: translateX(3px);
+}
+
+/* Reduced Motion Guardrail */
+@media (prefers-reduced-motion: reduce) {
+  .button,
+  .lx-text-link,
+  .lx-text-link svg {
+    transition: none !important;
+    transform: none !important;
+  }
+}

@@ -1,0 +1,201 @@
+/* ==========================================================================
+   SOLEN — MINIMALIST STICKY & TRANSPARENT EDITORIAL HEADER
+   ========================================================================== */
+
+.header-wrapper {
+  background-color: var(--color-warm-alabaster);
+  color: var(--color-deep-charcoal);
+  border-bottom: 1px solid transparent;
+  transition:
+    background-color var(--duration-surface) var(--ease-surface),
+    color var(--duration-surface) var(--ease-surface),
+    border-color var(--duration-surface) var(--ease-surface);
+}
+
+.header-wrapper--border-bottom {
+  border-bottom-color: var(--color-hairline);
+}
+
+/* Transparent Header over Homepage Hero (scrollY <= 80) */
+.header-wrapper--transparent {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  background-color: transparent;
+  color: var(--color-warm-alabaster);
+  border-bottom-color: transparent;
+}
+
+.header-wrapper--transparent .header__heading-link .h2,
+.header-wrapper--transparent .header__menu-item,
+.header-wrapper--transparent .header__active-menu-item,
+.header-wrapper--transparent .header__icon,
+.header-wrapper--transparent .header__icon .icon,
+.header-wrapper--transparent .header__search summary,
+.header-wrapper--transparent .list-menu__item--link {
+  color: var(--color-warm-alabaster);
+}
+
+.header-wrapper--transparent .cart-count-bubble {
+  background-color: var(--color-warm-alabaster);
+  color: var(--color-deep-charcoal);
+}
+
+/* Solid Transition on Scroll (scrollY > 80) or when menu/search opens */
+.header-wrapper--transparent.header-wrapper--scrolled,
+.header-wrapper--transparent:has(details[open]) {
+  background-color: var(--color-warm-alabaster);
+  color: var(--color-deep-charcoal);
+  border-bottom-color: var(--color-hairline);
+}
+
+.header-wrapper--transparent.header-wrapper--scrolled .header__heading-link .h2,
+.header-wrapper--transparent.header-wrapper--scrolled .header__menu-item,
+.header-wrapper--transparent.header-wrapper--scrolled .header__icon,
+.header-wrapper--transparent.header-wrapper--scrolled .header__icon .icon,
+.header-wrapper--transparent.header-wrapper--scrolled .header__search summary,
+.header-wrapper--transparent.header-wrapper--scrolled .list-menu__item--link,
+.header-wrapper--transparent:has(details[open]) .header__heading-link .h2,
+.header-wrapper--transparent:has(details[open]) .header__menu-item,
+.header-wrapper--transparent:has(details[open]) .header__icon,
+.header-wrapper--transparent:has(details[open]) .header__icon .icon,
+.header-wrapper--transparent:has(details[open]) .header__search summary {
+  color: var(--color-deep-charcoal);
+}
+
+.header-wrapper--transparent.header-wrapper--scrolled .cart-count-bubble,
+.header-wrapper--transparent:has(details[open]) .cart-count-bubble {
+  background-color: var(--color-deep-charcoal);
+  color: var(--color-warm-alabaster);
+}
+
+/* 3-Column Editorial Grid (1fr auto 1fr) */
+.header.header--middle-center:not(.drawer-menu) {
+  grid-template-areas: 'navigation heading icons';
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  column-gap: var(--space-4);
+}
+
+@media screen and (max-width: 989px) {
+  .header.header--middle-center {
+    grid-template-areas: 'left-icons heading icons';
+    grid-template-columns: 1fr auto 1fr;
+  }
+}
+
+/* Centered Editorial Wordmark */
+.header__heading-link {
+  padding: 0.4rem 0;
+  text-decoration: none;
+}
+
+.header__heading-link .h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 1.9rem + 0.6vw, 2.8rem);
+  font-weight: 400;
+  letter-spacing: var(--tracking-wordmark);
+  text-transform: uppercase;
+  line-height: 1;
+  color: var(--color-deep-charcoal);
+  transition: color var(--duration-state) var(--ease-state);
+}
+
+/* Left Navigation Links */
+.header__inline-menu .list-menu--inline {
+  gap: var(--space-3);
+}
+
+@media screen and (min-width: 1200px) {
+  .header__inline-menu .list-menu--inline {
+    gap: var(--space-4);
+  }
+}
+
+.header__menu-item {
+  font-family: var(--font-body);
+  font-size: var(--text-label-sm);
+  font-weight: 400;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-deep-charcoal);
+  padding: 0.8rem 0.2rem;
+  transition: color var(--duration-state) var(--ease-state);
+}
+
+.header__menu-item:hover,
+.header__menu-item[aria-expanded='true'],
+.header__active-menu-item {
+  color: var(--color-brushed-bronze);
+}
+
+.header__menu-item:hover span,
+.header__active-menu-item {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.6rem;
+  text-decoration-color: var(--color-brushed-bronze);
+}
+
+/* Right Utility Icons (Search, Account, Bag) */
+.header__icons {
+  justify-self: end;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.header__icon .icon {
+  transition: color var(--duration-state) var(--ease-state);
+}
+
+.header__icon:hover .icon {
+  color: var(--color-brushed-bronze);
+}
+
+.header__icon--cart {
+  position: relative;
+}
+
+.cart-count-bubble {
+  background-color: var(--color-deep-charcoal);
+  color: var(--color-warm-alabaster);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+  height: 1.7rem;
+  min-width: 1.7rem;
+  line-height: 1;
+  transition:
+    background-color var(--duration-state) var(--ease-state),
+    color var(--duration-state) var(--ease-state);
+}
+
+/* Ensure dropdown menus remain solid alabaster with dark text */
+.header__submenu {
+  background-color: var(--color-warm-alabaster);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-sharp);
+  box-shadow: none;
+}
+
+.header__submenu .header__menu-item {
+  color: var(--color-deep-charcoal);
+}
+
+.header__submenu .header__menu-item:hover {
+  color: var(--color-brushed-bronze);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header-wrapper,
+  .header__heading-link .h2,
+  .header__menu-item,
+  .header__icon .icon,
+  .cart-count-bubble {
+    transition: none !important;
+  }
+}
